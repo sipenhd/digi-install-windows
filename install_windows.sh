@@ -17,7 +17,7 @@ VIRTIO_ISO="virtio-win.iso"
 VIRTIO_LINK="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.215-1/virtio-win-0.1.215.iso"
 
 # Create a raw image for Windows
-qemu-img create -f raw "$IMG_FILE" 30G
+qemu-img create -f raw "$IMG_FILE" 40G
 
 echo "Image file $IMG_FILE created successfully."
 
