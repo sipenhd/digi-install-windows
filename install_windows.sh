@@ -32,7 +32,7 @@ echo "VirtIO drivers downloaded successfully."
 qemu-system-x86_64 -enable-kvm -m 4096 -cpu host -smp 2 \
     -drive file="$IMG_FILE",format=raw \
     -cdrom "$ISO_FILE" -boot d -vnc :1 \
-    -device VGA,vgamem=128 \
+    -device VGA -vga std \
     -net nic -net user
 
 echo "QEMU Windows installation started. Connect via VNC to continue."
