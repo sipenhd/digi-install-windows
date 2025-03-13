@@ -12,7 +12,7 @@ echo "QEMU installation completed successfully."
 # Set Windows installation parameters
 IMG_FILE="windows.img"
 ISO_FILE="windows.iso"
-ISO_LINK="https://bit.ly/3gN5xrh"
+ISO_LINK="https://go.microsoft.com/fwlink/?linkid=2273506"
 VIRTIO_ISO="virtio-win.iso"
 VIRTIO_LINK="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.215-1/virtio-win-0.1.215.iso"
 
