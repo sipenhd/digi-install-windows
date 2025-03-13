@@ -1,25 +1,39 @@
 #!/bin/bash
 
-# Update dan Install QEMU
-echo "Updating system..."
-apt update && apt install -y qemu-utils qemu-system-x86 wget xrdp git
+# Update package repositories
+apt-get update && apt-get upgrade -y
 
-# Download Windows Ghost Spectre ISO
-echo "Downloading Windows Ghost Spectre ISO..."
-wget -O /root/windows.iso "https://archive.org/download/ghost-spectre-windows-10/GhostSpectreWindows10SuperLite.iso"
+# Install QEMU and necessary packages
+apt-get install -y qemu qemu-utils qemu-system-x86-xen qemu-system-x86 qemu-kvm
 
-# Konfigurasi Disk untuk Windows
-echo "Setting up disk..."
-qemu-img create -f qcow2 /root/windows.qcow2 50G
+echo "QEMU installation completed successfully."
 
-# Menjalankan Instalasi Windows di QEMU
-echo "Starting Windows installation..."
-nohup qemu-system-x86_64 -enable-kvm -m 8000 -cpu host -smp 4 \
-  -cdrom /root/windows.iso -boot d -drive file=/root/windows.qcow2,format=qcow2 \
-  -net user,hostfwd=tcp::3389-:3389 -net nic -vga std -vnc :1 \
-  > /dev/null 2>&1 &
+# Set Windows installation parameters
+IMG_FILE="windows.img"
+ISO_FILE="windows.iso"
+ISO_LINK="https://bit.ly/3gN5xrh"
+VIRTIO_ISO="virtio-win.iso"
+VIRTIO_LINK="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.215-1/virtio-win-0.1.215.iso"
 
-echo "Installation started. Connect via VNC to complete setup."
-echo "To connect: Use VNC Viewer with IP:PORT"
-echo "After installation, run Windows setup manually."
+# Create a raw image for Windows
+qemu-img create -f raw "$IMG_FILE" 30G
+
+echo "Image file $IMG_FILE created successfully."
+
+# Download Windows ISO
+wget -O "$ISO_FILE" "$ISO_LINK"
+
+echo "Windows ISO downloaded successfully."
+
+# Download VirtIO drivers
+wget -O "$VIRTIO_ISO" "$VIRTIO_LINK"
+
+echo "VirtIO drivers downloaded successfully."
+
+# Start Windows installation in QEMU
+qemu-system-x86_64 -enable-kvm -m 4096 -cpu host -smp 2 \
+    -drive file="$IMG_FILE",format=raw \
+    -cdrom "$ISO_FILE" -boot d -vnc :1
+
+echo "QEMU Windows installation started. Connect via VNC to continue."
 
