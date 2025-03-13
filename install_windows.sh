@@ -5,11 +5,7 @@ apt-get update && apt-get upgrade -y
 
 # Install QEMU and necessary packages
 Install QEMU and its utilities
-apt-get install qemu -y
-apt install qemu-utils -y
-apt install qemu-system-x86-xen -y
-apt install qemu-system-x86 -y
-apt install qemu-kvm -y
+sudo apt-get install qemu-kvm qemu-utils qemu-system-x86 qemu-system-gui -y
 
 echo "QEMU installation completed successfully."
 
